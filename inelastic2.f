@@ -172,6 +172,8 @@ c...Parse given arguments
           write(*,*) '              2 - diquark-antidiquark pair product
      +ion allowed, with possibility for diquark to be split'
           goto 40
+          else
+            write(*,*) 'Flag ',ARG,' not recognized'
         endif
         J = J+1
       enddo
@@ -212,6 +214,12 @@ c...Print event number
 
 c...Generate event
         call pyevnt
+
+        if(VERBOSE) then
+          write(*,*)
+          write(*,*) 'Event: ',I
+          call pylist(2)
+        endif
 
 c...Look for electron
         do MJ=3,N
@@ -279,6 +287,10 @@ c...Write event out in LUND format
 
           NUMEV = NUMEV+1
 10    enddo
+      
+      if(VERBOSE) then
+        call pystat(1)
+      endif
 
       print*,"Total events in ",TRIM(OUTPUT),": ",NUMEV
 
